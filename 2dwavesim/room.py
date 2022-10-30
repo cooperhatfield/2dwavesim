@@ -15,6 +15,7 @@ class Room:
 				data.
 		'''
 		self.room_points = np.meshgrid(np.linspace(0, width, ds), np.linspace(0, height, ds))
+		self.mask_points = np.ones(self.room_points[0].shape())
 		self.wavespeed = phsyics_params.get('wavespeed', 343)
 		self.attenuation = physics_params.get('attenuation', 0)
 		self.walls = walls
@@ -27,6 +28,18 @@ class Room:
 
 	def add_walls(self, walls):
 		self.walls + walls
+
+	def create_mask(self):
+		def bressenham_ABC(p0, p1):
+			A = p1.y - p0.y
+			B = -(p1.x - p0.x)
+			C = p1.x * p0.y - p0.x * p1.y
+			return A,B,C
+
+		for wall in self.walls:
+			A, B, C = bressenham_ABC(wall.endpoint1, wall.endpoint2)
+			on_line_mask = 0 == np.round(self.room_points[0] * A + self.room_points[1] * B + C)
+			self.mask_points[on_line_mask] = wall.absorption
 
 	def run(self, dt, t_final):
 		'''Solve the system using a finite differences solver, and returned the solved system.
