@@ -63,16 +63,16 @@ class Room:
 			room_data[:,:,t] = np.multiply(room_data[:,:,t], self.mask_points)
 			D2x = room_data[:-2,1:-1,t] - 2 * room_data[1:-1,1:-1,t] + room_data[2:,1:-1,t]
 			D2y = room_data[1:-1,:-2,t] - 2 * room_data[1:-1,1:-1,t] + room_data[1:-1,2:,t]
-			room_data[1:-1,1:-1,t+1] = self.wavespeed * (D2x + D2y) + 2 * room_data[1:-1,1:-1,t] + (self.attenuation - 1) * room_data[1:-1,1:-1,t-1]
+			room_data[1:-1,1:-1,t+1] = wave_constant * (D2x + D2y) + 2 * room_data[1:-1,1:-1,t] + (damp_constant - 1) * room_data[1:-1,1:-1,t-1]
 			for source in self.func_sources:
 				loc = source[1]
 				source_func = source[2]
-				room_data[loc.x, loc.y, t+1] = source_func(time_steps[t])
+				room_data[loc.x, loc.y, t+1] = dt**2 * source_func(time_steps[t])
 			for source in self.data_sources:
 				loc = source[1]
 				source_data = source[2]
-				room_data[loc.x, loc.y, t+1] = source_data[t]
-		room_data /= (1 + self.attenuation)
+				room_data[loc.x, loc.y, t+1] = dt**2 * source_data[t]
+		room_data /= (1 + damp_constant)
 
 		run_data = {'time params': {'dt': dt,
 									't_final': t_final},
