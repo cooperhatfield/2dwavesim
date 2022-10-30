@@ -14,7 +14,7 @@ class Room:
 			walls: (Wall) List of wall objects containing position and absorption 
 				data.
 		'''
-		self.room_points = np.meshgrid(np.linspace(0, width, ds), np.linspace(0, height, ds))
+		self.room_points = np.meshgrid(np.arange(0, width, ds), np.arange(0, height, ds))
 		self.mask_points = np.ones(self.room_points[0].shape())
 		self.wavespeed = phsyics_params.get('wavespeed', 343)
 		self.attenuation = physics_params.get('attenuation', 0)
