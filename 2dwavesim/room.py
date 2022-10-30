@@ -16,9 +16,12 @@ class Room:
 		'''
 		self.room_points = np.meshgrid(np.arange(0, width, ds), np.arange(0, height, ds))
 		self.mask_points = np.ones(self.room_points[0].shape())
+		self.point_spacing = ds
 		self.wavespeed = phsyics_params.get('wavespeed', 343)
 		self.attenuation = physics_params.get('attenuation', 0)
 		self.walls = walls
+		self.func_sources = []
+		self.data_sources = []
 
 	def add_source_func(self, loc, func):
 		true_loc = Coordinate(loc.x // self.point_spacing, loc.y // self.point_spacing)
