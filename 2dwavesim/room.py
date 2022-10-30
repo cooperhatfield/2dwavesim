@@ -78,5 +78,5 @@ dt = 0.5
 t_final = 
 
 room = Room(ds, width, height, pp)
-room.add_source_func((5,7), driving_func)
+room.add_source_func(Coordinate(5,7), driving_func)
 result = room.run()
