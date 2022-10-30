@@ -11,7 +11,7 @@ class Room:
 				system. Contains 'wavespeed': speed of waves in medium (float) and
 				'attenuation': attenuation of waves in medium (float).
 		Keyword params:
-			walls: (Wall) List of wall objects containing position and absorbtion 
+			walls: (Wall) List of wall objects containing position and absorption 
 				data.
 		'''
 		self.room_points = np.meshgrid(np.linspace(0, width, ds), np.linspace(0, height, ds))
@@ -51,9 +51,10 @@ class Coordinate:
 
 class Wall:
 	def __init__(self, endpoint1, endpoint2, absorbtion):
+	def __init__(self, endpoint1, endpoint2, absorption):
 		self.endpoint1 = endpoint1
 		self.endpoint2 = endpoint2
-		self.absorbtion = absorbtion
+		self.absorption = absorption
 
 
 pp = {'wavespeed': 343, 'attenuation': 2e-2}
