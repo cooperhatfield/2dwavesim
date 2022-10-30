@@ -1,7 +1,7 @@
 import numpy as np
 
 class Room:
-	def __init__(self, ds, width, height,*, walls, physics_params={}):
+	def __init__(self, ds, width, height,*, walls=[], physics_params={}):
 		'''Create a 'room' system, with parameters for simulation.
 		Params:
 			ds: (float) size of unit step in space
@@ -15,9 +15,9 @@ class Room:
 				data.
 		'''
 		self.room_points = np.meshgrid(np.arange(0, width, ds), np.arange(0, height, ds))
-		self.mask_points = np.ones(self.room_points[0].shape())
+		self.mask_points = np.ones(self.room_points[0].shape)
 		self.point_spacing = ds
-		self.wavespeed = phsyics_params.get('wavespeed', 343)
+		self.wavespeed = physics_params.get('wavespeed', 343)
 		self.attenuation = physics_params.get('attenuation', 0)
 		self.walls = walls
 		self.func_sources = []
@@ -25,11 +25,11 @@ class Room:
 		self.runs = []
 
 	def add_source_func(self, loc, func):
-		true_loc = Coordinate(loc.x // self.point_spacing, loc.y // self.point_spacing)
-		self.func_sources.append((loc, true_loc func))
+		true_loc = Coordinate(int(loc.x // self.point_spacing), int(loc.y // self.point_spacing))
+		self.func_sources.append((loc, true_loc, func))
 
 	def add_source_data(self, loc, data):
-		true_loc = Coordinate(loc.x // self.point_spacing, loc.y // self.point_spacing)
+		true_loc = Coordinate(int(loc.x // self.point_spacing), int(loc.y // self.point_spacing))
 		self.data_sources.append((loc, true_loc, data))
 
 	def add_walls(self, walls):
@@ -51,10 +51,10 @@ class Room:
 		'''Solve the system using a finite differences solver, and return the solved system.
 		'''
 		time_steps = np.arange(0, t_final, dt)
-		room_data = np.zeros((*self.room_points[0].shape(), len(time_steps)), dtype=float)
+		room_data = np.zeros((*self.room_points[0].shape, len(time_steps)), dtype=float)
 
 		for t in range(1, len(time_steps)-1):
-			room_data[:,:,t] = np.multiply(u[:,:,t], self.mask_points)
+			room_data[:,:,t] = np.multiply(room_data[:,:,t], self.mask_points)
 			D2x = room_data[:-2,1:-1,t] - 2 * room_data[1:-1,1:-1,t] + room_data[2:,1:-1,t]
 			D2y = room_data[1:-1,:-2,t] - 2 * room_data[1:-1,1:-1,t] + room_data[1:-1,2:,t]
 			room_data[1:-1,1:-1,t+1] = self.wavespeed * (D2x + D2y) + 2 * room_data[1:-1,1:-1,t] + (self.attenuation - 1) * room_data[1:-1,1:-1,t-1]
@@ -71,7 +71,7 @@ class Room:
 		run_data = {'time params': {'dt': dt,
 									't_final': t_final},
 					'walls': self.walls,
-					'sources': self.func_sources +  self.data_soures,
+					'sources': self.func_sources +  self.data_sources,
 					'results': room_data
 					}
 		self.runs.append(run_data)
