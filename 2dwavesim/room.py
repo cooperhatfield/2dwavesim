@@ -42,7 +42,7 @@ class Room:
 			self.mask_points[on_line_mask] = wall.absorption
 
 	def run(self, dt, t_final):
-		'''Solve the system using a finite differences solver, and returned the solved system.
+		'''Solve the system using a finite differences solver, and return the solved system.
 		'''
 
 
