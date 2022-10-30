@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 class Room:
 	def __init__(self, ds, width, height,*, walls=[], physics_params={}):
@@ -59,7 +60,7 @@ class Room:
 		time_steps = np.arange(0, t_final, dt)
 		room_data = np.zeros((*self.room_points[0].shape, len(time_steps)), dtype=float)
 
-		for t in range(1, len(time_steps)-1):
+		for t in tqdm(range(1, len(time_steps)-1)):
 			room_data[:,:,t] = np.multiply(room_data[:,:,t], self.mask_points)
 			D2x = room_data[:-2,1:-1,t] - 2 * room_data[1:-1,1:-1,t] + room_data[2:,1:-1,t]
 			D2y = room_data[1:-1,:-2,t] - 2 * room_data[1:-1,1:-1,t] + room_data[1:-1,2:,t]
