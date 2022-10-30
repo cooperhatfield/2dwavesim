@@ -1,7 +1,7 @@
 import numpy as np
 
 class Room:
-	def __init__(self, ds, width, height, physics_params, *, walls):
+	def __init__(self, ds, width, height,*, walls, physics_params={}):
 		'''Create a 'room' system, with parameters for simulation.
 		Params:
 			ds: (float) size of unit step in space
