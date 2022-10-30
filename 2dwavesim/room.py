@@ -50,6 +50,12 @@ class Room:
 	def run(self, dt, t_final):
 		'''Solve the system using a finite differences solver, and return the solved system.
 		'''
+		wave_constant = (self.wavespeed * dt / self.point_spacing)**2
+		damp_constant = self.attenuation * dt / 2
+
+		if 2 * wave_constant > 1:
+			raise ValueError(f'CFL condition not satisfied, results won\'t be numerically stable. C is {wave_constant}.')
+
 		time_steps = np.arange(0, t_final, dt)
 		room_data = np.zeros((*self.room_points[0].shape, len(time_steps)), dtype=float)
 
