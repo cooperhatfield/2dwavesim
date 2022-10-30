@@ -21,10 +21,12 @@ class Room:
 		self.walls = walls
 
 	def add_source_func(self, loc, func):
-		pass
+		true_loc = Coordinate(loc.x // self.point_spacing, loc.y // self.point_spacing)
+		self.func_sources.append((loc, true_loc func))
 
 	def add_source_data(self, loc, data):
-		pass
+		true_loc = Coordinate(loc.x // self.point_spacing, loc.y // self.point_spacing)
+		self.data_sources.append((loc, true_loc, data))
 
 	def add_walls(self, walls):
 		self.walls + walls
