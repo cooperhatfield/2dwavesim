@@ -63,7 +63,6 @@ class Coordinate:
 		return Coordinate(self.x + other.x, self.y + other.y)
 
 class Wall:
-	def __init__(self, endpoint1, endpoint2, absorbtion):
 	def __init__(self, endpoint1, endpoint2, absorption):
 		self.endpoint1 = endpoint1
 		self.endpoint2 = endpoint2
