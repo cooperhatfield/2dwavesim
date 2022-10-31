@@ -34,7 +34,7 @@ class Room:
 		self.data_sources.append((loc, true_loc, data))
 
 	def add_walls(self, walls):
-		self.walls + walls
+		self.walls = self.walls + walls
 
 	def create_mask(self):
 		def bressenham_ABC(p0, p1):
