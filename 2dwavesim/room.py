@@ -134,12 +134,31 @@ def animate(data, name, *, walls=[]):
 
 pp = {'wavespeed': 343, 'attenuation': 0}
 ds = 1
-width = 10
-height = 15
-driving_func = lambda x: np.sin(0.5*x)
-dt = 0.5
-t_final = 
+width = 70
+height = 70
+driving_func = lambda x: np.sin(50*x)
+dt = ds / (np.sqrt(2) * pp['wavespeed'])
+print(dt)
+t_final = 4
 
-room = Room(ds, width, height, pp)
-room.add_source_func(Coordinate(5,7), driving_func)
-result = room.run()
+walls_square = [
+		 Wall(Coordinate(10,10), Coordinate(10,20), 0),
+		 Wall(Coordinate(10,21), Coordinate(10,30), 0.5),
+		 Wall(Coordinate(10,31), Coordinate(10,45), 0),
+		 Wall(Coordinate(10,46), Coordinate(45,46), 0),
+		 Wall(Coordinate(46,46), Coordinate(46,10), 0.1),
+		 Wall(Coordinate(45,10), Coordinate(11,10), 0)
+		 ]
+
+room = Room(ds, width, height, physics_params=pp)
+room.add_walls(walls_square)
+room.add_source_func(Coordinate(15,15), driving_func)
+room.run(dt, t_final)
+import matplotlib.pyplot as plt
+#plt.imshow(room.runs[0]['results'][:,:,-1])
+#plt.show()
+
+
+
+
+animate(room.runs[0]['results'], 'test', walls=walls_square)
