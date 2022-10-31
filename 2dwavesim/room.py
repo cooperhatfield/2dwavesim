@@ -122,11 +122,17 @@ class Wall:
 		self.endpoint2 = endpoint2
 		self.transmission = transmission
 
-def animate(data, name, *, walls=[]):
+def animate(data, name, *, frame_space=10, walls=[]):
+	'''Create an animation of the data.
+	`data`: 3D array of waveform over time
+	`name`: name of output file (if saving is enabled)
+	`frame_space`: temporal resolution of resulting animation. Make sure this isn't too small!
+	`walls`: optionally include the walls in the animation. They won't be visible if this isn't included.
+	'''
 	import matplotlib.animation as animation
 	import matplotlib as m
 
-	frame_space = 10
+	frame_space = frame_space
 	frame_max = data.shape[-1]
 	print(frame_max)
 	fig, [ax, cax] = plt.subplots(1, 2, gridspec_kw={'width_ratios':[10,1]})
