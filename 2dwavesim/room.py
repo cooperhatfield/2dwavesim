@@ -154,7 +154,7 @@ t_final = 4
 
 walls_square = [
 		 Wall(Coordinate(10,10), Coordinate(10,20), 0),
-		 Wall(Coordinate(10,21), Coordinate(10,30), 0.5),
+		 Wall(Coordinate(10,21), Coordinate(10,30), 0.7),
 		 Wall(Coordinate(10,31), Coordinate(10,45), 0),
 		 Wall(Coordinate(10,46), Coordinate(45,46), 0),
 		 Wall(Coordinate(46,46), Coordinate(46,10), 0),
