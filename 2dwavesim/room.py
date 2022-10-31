@@ -85,6 +85,11 @@ class Room:
 					}
 		self.runs.append(run_data)
 
+	def plot_mask(self):
+		import matplotlib.pyplot as plt
+		plt.imshow(self.mask_points)
+		plt.show()
+
 class Coordinate:
 	def __init__(self, x, y):
 		self.x = x
