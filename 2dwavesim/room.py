@@ -45,7 +45,11 @@ class Room:
 
 		for wall in self.walls:
 			A, B, C = bressenham_ABC(wall.endpoint1, wall.endpoint2)
-			on_line_mask = 0 == np.round(self.room_points[0] * A + self.room_points[1] * B + C)
+			on_line_mask = 0 == np.floor(self.room_points[0] * A + self.room_points[1] * B + C)
+			on_line_mask *= max(wall.endpoint1.x, wall.endpoint2.x) >= self.room_points[0]
+			on_line_mask *= self.room_points[0] >= min(wall.endpoint1.x, wall.endpoint2.x)
+			on_line_mask *= max(wall.endpoint1.y, wall.endpoint2.y) >= self.room_points[1]
+			on_line_mask *= self.room_points[1] >= min(wall.endpoint1.y, wall.endpoint2.y)
 			self.mask_points[on_line_mask] = wall.absorption
 
 	def run(self, dt, t_final):
