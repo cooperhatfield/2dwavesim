@@ -9,7 +9,7 @@ class Room:
 			width: (float) width of room, rounded down to nearest multiple of ds
 			height: (float) height of room, rounded down to nearest multiple of ds
 		Keyword params:
-			walls: (Wall) List of wall objects containing position and absorption 
+			walls: (Wall) List of wall objects containing position and transmission 
 				data.
 			physics_params: (dict{str:float}) dictionary of physics params for the
 				system. Contains 'wavespeed': speed of waves in medium (float) and
@@ -55,7 +55,7 @@ class Room:
 			on_line_mask *= self.room_points[0] >= min(wall.endpoint1.x, wall.endpoint2.x)
 			on_line_mask *= max(wall.endpoint1.y, wall.endpoint2.y) >= self.room_points[1]
 			on_line_mask *= self.room_points[1] >= min(wall.endpoint1.y, wall.endpoint2.y)
-			self.mask_points[on_line_mask] = wall.absorption
+			self.mask_points[on_line_mask] = wall.transmission
 
 	def run(self, dt, t_final):
 		'''Solve the system using a finite differences solver, and return the solved system.
@@ -97,6 +97,7 @@ class Room:
 		self.runs.append(run_data)
 
 	def plot_mask(self):
+		'''Plot the currently set mask.'''
 		import matplotlib.pyplot as plt
 		plt.imshow(self.mask_points)
 		plt.show()
@@ -116,10 +117,10 @@ class Coordinate:
 		return Coordinate(self.x + other.x, self.y + other.y)
 
 class Wall:
-	def __init__(self, endpoint1, endpoint2, absorption):
+	def __init__(self, endpoint1, endpoint2, transmission):
 		self.endpoint1 = endpoint1
 		self.endpoint2 = endpoint2
-		self.absorption = absorption
+		self.transmission = transmission
 
 def animate(data, name, *, walls=[]):
 	import matplotlib.animation as animation
@@ -141,7 +142,7 @@ def animate(data, name, *, walls=[]):
 		im = ax.imshow(data[:,:,i], vmin=minimum, vmax=maximum, animated=True)
 		wallims = []
 		for wall in walls:
-			wallim, = ax.plot([wall.endpoint1.x, wall.endpoint2.x], [wall.endpoint1.y, wall.endpoint2.y], color='black', linewidth=1, alpha=1-wall.absorption)
+			wallim, = ax.plot([wall.endpoint1.x, wall.endpoint2.x], [wall.endpoint1.y, wall.endpoint2.y], color='black', linewidth=1, alpha=1-wall.transmission)
 			wallims.append(wallim)
 
 		ims.append([im] + wallims)
