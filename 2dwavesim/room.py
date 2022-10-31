@@ -103,8 +103,36 @@ class Wall:
 		self.endpoint2 = endpoint2
 		self.absorption = absorption
 
+def animate(data, name, *, walls=[]):
+	import matplotlib.animation as animation
+	import matplotlib as m
 
-pp = {'wavespeed': 343, 'attenuation': 2e-2}
+	frame_space = 10
+	frame_max = data.shape[-1]
+	print(frame_max)
+	fig, [ax, cax] = plt.subplots(1, 2, gridspec_kw={'width_ratios':[10,1]})
+
+	maximum = np.amax(data)
+	minimum = np.amin(data)
+
+	norm = m.colors.Normalize(vmin=minimum, vmax=maximum)
+	cb1 = m.colorbar.ColorbarBase(cax, norm=norm, orientation='vertical')
+
+	ims = []
+	for i in range(0, frame_max, frame_space):
+		im = ax.imshow(data[:,:,i], vmin=minimum, vmax=maximum, animated=True)
+		wallims = []
+		for wall in walls:
+			wallim, = ax.plot([wall.endpoint1.x, wall.endpoint2.x], [wall.endpoint1.y, wall.endpoint2.y], color='black', linewidth=1, alpha=1-wall.absorption)
+			wallims.append(wallim)
+
+		ims.append([im] + wallims)
+
+	ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True, repeat_delay=1000)
+	plt.show()
+	#ani.save(f'D:\\Repos\\2dwavesim\\2dwavesim\\{name}.webp', writer=animation.PillowWriter(fps=24))
+
+pp = {'wavespeed': 343, 'attenuation': 0}
 ds = 1
 width = 10
 height = 15
