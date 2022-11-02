@@ -130,6 +130,7 @@ def animate(data, name, *, frame_space=10, walls=[]):
 	`walls`: optionally include the walls in the animation. They won't be visible if this isn't included.
 	'''
 	import matplotlib.animation as animation
+	import matplotlib.pyplot as plt
 	import matplotlib as m
 
 	frame_space = frame_space
