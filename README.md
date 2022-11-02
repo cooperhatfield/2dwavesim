@@ -6,6 +6,5 @@ Currently it supports setting the attenuation properties of individual boundarie
 
 TODO:
 - add tests
-- add a seperate file for example code
 - add more built-in methods for visualization
 - 3D??
