@@ -90,7 +90,8 @@ Calculate the wave propagation from the set sources and using the set walls. Thi
 `t_final` a float giving an upper limit for the amount of time to be simulated. A higher value will take more time to simulate, and will likely just repeat the steady state after a certain point in time...
  
 </ul>
- 
+
+</ul>
  
 `Wall(endpoint1, endpoint2, transmission)`
 
