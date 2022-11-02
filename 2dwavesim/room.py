@@ -66,6 +66,7 @@ class Room:
 		Make sure the numerical stability is maintained by ensuring (wavespeed)*dt/ds<=1.
 		`dt` is the time step. `t_final` is the time limit on the simulation.
 		'''
+		self.create_mask()
 		wave_constant = (self.wavespeed * dt / self.point_spacing)**2
 		damp_constant = self.attenuation * dt / 2
 
