@@ -7,7 +7,7 @@ pp = {'wavespeed': 343, 'attenuation': 0}
 ds = 1
 width = 70
 height = 70
-driving_func = lambda x: np.sin(50*2*np.pi*x) + np.sin(15*2*np.pi*x)
+driving_func = lambda x: np.sin(40*2*np.pi*x) + np.sin(15*2*np.pi*x)
 dt = ds / (np.sqrt(2) * pp['wavespeed'])
 print(dt)
 t_final = 4
@@ -44,10 +44,14 @@ walls_triangle = [
 
 walls_u = [
 		 Wall((10,10), (10,46), 0),
-		 Wall((10,46), (46,46), 0),
-		 Wall((46,46), (46,10), 0),
+		 Wall((10,46), (30,46), 0),
+		 Wall((30,46), (46,30), 0.5),
+		 Wall((46,30), (46,10), 0),
+		 Wall((23,10), (23,35), 0),
 		 Wall((46,10), (10,10), 0),
-		 Wall((23,10), (23,35), 0)
+		 Wall((30,46), (42,58), 0),
+		 Wall((42,58), (58,42), 0),
+		 Wall((58,42), (46,30), 0)
 		]
 
 room = Room(ds, width, height, physics_params=pp)
@@ -63,7 +67,7 @@ room.run(dt, t_final)
 
 animate(room.runs[0]['results'], 'test', walls=walls_u)
 
-plt.plot(room.runs[0]['results'][15,15,:], label='Driving Force')
-plt.plot(room.runs[0]['results'][15,28,:], label='Force on opposite room')
-plt.legend()
-plt.show()
+#plt.plot(room.runs[0]['results'][15,15,:], label='Driving Force')
+#plt.plot(room.runs[0]['results'][15,28,:], label='Force on opposite room')
+#plt.legend()
+#plt.show()
