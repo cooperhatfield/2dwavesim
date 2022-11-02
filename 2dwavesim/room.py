@@ -90,7 +90,10 @@ class Room:
 			for source in self.data_sources:
 				loc = source[1]
 				source_data = source[2]
-				room_data[loc.x, loc.y, t+1] = dt**2 * source_data[t]
+				if len(source_data) <= t:
+					room_data[loc.x, loc.y, t+1] = 0
+				else:
+					room_data[loc.x, loc.y, t+1] = dt**2 * source_data[t]
 		room_data /= (1 + damp_constant)
 
 		run_data = {'time params': {'dt': dt,
