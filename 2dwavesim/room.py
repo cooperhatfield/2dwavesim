@@ -1,6 +1,8 @@
 import numpy as np
 from tqdm import tqdm
 
+from collections import namedtuple
+
 class Room:
 	def __init__(self, ds, width, height,*, walls=[], physics_params={}):
 		'''Create a 'room' system, with parameters for simulation.
@@ -27,12 +29,14 @@ class Room:
 
 	def add_source_func(self, loc, func):
 		'''Add a source which is based on a function in time. `loc` is the coordinate in the room.'''
-		true_loc = Coordinate(int(loc.x // self.point_spacing), int(loc.y // self.point_spacing))
+		Coordinate = namedtuple('Coordinate', 'x y')
+		true_loc = Coordinate(int(loc[0] // self.point_spacing), int(loc[1] // self.point_spacing))
 		self.func_sources.append((loc, true_loc, func))
 
 	def add_source_data(self, loc, data):
 		'''Add a source which is based on a list of values. `loc` is the coordinate in the room.'''
-		true_loc = Coordinate(int(loc.x // self.point_spacing), int(loc.y // self.point_spacing))
+		Coordinate = namedtuple('Coordinate', 'x y')
+		true_loc = Coordinate(int(loc[0] // self.point_spacing), int(loc[1] // self.point_spacing))
 		self.data_sources.append((loc, true_loc, data))
 
 	def add_walls(self, walls):
@@ -102,24 +106,11 @@ class Room:
 		plt.imshow(self.mask_points)
 		plt.show()
 
-class Coordinate:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
-
-	def __repr__(self):
-		return (self.x, self.y)
-
-	def __str__(self):
-		return f'({self.x}, {self.y})'
-
-	def __add__(self, other):
-		return Coordinate(self.x + other.x, self.y + other.y)
-
 class Wall:
 	def __init__(self, endpoint1, endpoint2, transmission):
-		self.endpoint1 = endpoint1
-		self.endpoint2 = endpoint2
+		Coordinate = namedtuple('Coordinate', 'x y')
+		self.endpoint1 = Coordinate(endpoint1[0], endpoint1[1])
+		self.endpoint2 = Coordinate(endpoint2[0], endpoint2[1])
 		self.transmission = transmission
 
 def animate(data, name, *, frame_space=10, walls=[]):
