@@ -4,6 +4,8 @@ This is a project that simulates waves on 2D plates/rooms. Given boundaries (or 
 
 Currently it supports setting the attenuation properties of individual boundaries, multiple forcing points based on either data or a function, and any wall shape you want. It also supports variable time and space steps and spans (as long as you keep numerically stable!), as well as custom wavespeed and attenuation on the material.
 
+![example](https://github.com/cooperhatfield/2dwavesim/blob/main/exampleimages/example.webp)
+
 TODO:
 - add tests
 - add more built-in methods for visualization
