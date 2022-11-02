@@ -130,7 +130,6 @@ def animate(data, name, *, frame_space=10, walls=[]):
 
 	frame_space = frame_space
 	frame_max = data.shape[-1]
-	print(frame_max)
 	fig, [ax, cax] = plt.subplots(1, 2, gridspec_kw={'width_ratios':[10,1]})
 
 	maximum = np.amax(data)
