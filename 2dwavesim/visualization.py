@@ -33,7 +33,7 @@ def animate(data, name, *, frame_space=10, walls=[]):
 	plt.show()
 	#ani.save(f'D:\\Repos\\2dwavesim\\2dwavesim\\{name}.webp', writer=animation.PillowWriter(fps=24))
 
-def get_steady_state_index(data, sample_points, *, rms_tolerance=0.1, window_size=0.1):
+def get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_size=0.1):
 	''' Estimate the earliest index the system is in steady state by calculating the difference in 
 	RMS over time at each of the sample points. Returns the intex into the time dimension of the 
 	data which is the earliest point steady state is reached at all of the sample_points.
