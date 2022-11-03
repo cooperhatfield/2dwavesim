@@ -8,7 +8,6 @@ Currently it supports setting the attenuation properties of individual boundarie
 
 TODO:
 - add tests
-- add more built-in methods for visualization
 - frequency-dependant wall transmission values
 - 3D??
 
@@ -86,7 +85,7 @@ Use matplotlib.pyplot to plot an image of the current mask. In the future, this 
  
 Calculate the wave propagation from the set sources and using the set walls. This will simulate from `t=0` to `t_final` at `dt` time steps. If `t_final` isn't an exact multiple of `dt`, then it acts like an upper bound. 
   
-`dt` a float giving the time step for the simulation. A smaller value means more time resolution. WARNING: Numerical stability will almost certainly be lost if this is not set to satisfy the [CFL Condition](https://en.wikipedia.org/wiki/Courant%E2%80%93Friedrichs%E2%80%93Lewy_condition), namely $\frac{u*dt}{ds} \leq C_{max}$ where $u$ is the `wavespeed` and $c_{max}$ is approximately 1 for the numerical method being using. 
+`dt` a float giving the time step for the simulation. A smaller value means more time resolution. WARNING: Numerical stability will almost certainly be lost if this is not set to satisfy the [CFL Condition](https://en.wikipedia.org/wiki/Courant%E2%80%93Friedrichs%E2%80%93Lewy_condition), namely $\frac{u*dt}{ds} \leq C_{max}$ where $u$ is the `wavespeed` and $c_{max}$ is approximately 1 for the numerical method being used. 
 
 `t_final` a float giving an upper limit for the amount of time to be simulated. A higher value will take more time to simulate, and will likely just repeat the steady state after a certain point in time...
  
@@ -105,3 +104,50 @@ This creates an instance of a `Wall` class, which contains the wall's endpoints 
 `transmission` is a float in [0,1] which defines the proportion of wave amplitude able to penetrate the wall. If 0, then all energy is reflected back inwards, and if 1 then the wall "isn't there".
 </ul>
 
+## Visualization
+
+The `visualization` module contains a few functions for visualizing results, or processing results into an easily displayed format.
+
+**`animate(data, *, filepath='', frame_space=10, walls=[])`**
+
+<ul>
+
+    Automatically animate the given data using `matplotlib.animation.ArtistAnimation`. The animation file can optionally be saved to a file.
+
+    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+
+    `filename` is the name and path of output file. Leave this blank to not save. Output formats are those supported by `matplotlib.animation.ArtistAnimation`, which is at least ".gif" and ".webp".
+
+    `frame_space` is the temporal resolution of resulting animation. Make sure this isn't too small!
+
+    `walls` is to optionally include the walls in the animation. They won't be visible if this isn't included.
+
+</ul>
+
+**`get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_size=0.1)`**
+
+<ul>
+
+    This function calculates the windowed RMS of the given points over time. This data is compared to the RMS value at the end of the simulation. Then the latest time index where all point RMS's are within a tolerance to the final RMS is taken as the time index where steady-state is reached.
+
+    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+
+    `sample_points` is a list of points in the room which will be checked for RMS.
+
+    `rms_tolerance` is a float in [0, 1] defining the limit on the amount the RMS is allowed to change from the final value and still be considered steady-state.
+
+    `window_size` is a float in [0, 1] defining the percent of total points to consider in the window.
+
+</ul>
+
+**`get_standing_waves(data, *, steady_state_kwargs=None)`**
+
+<ul>
+
+    This function calculates when the steady state begins, and returns a 2D array which is the average of the absolute value of all of the rooms points across all steady state times.
+
+    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+
+    `steady_state_kwargs` is a dict of the keyword arguments to pass to `get_steady_state_index`. If `None`, then the default parameters and a sample point at the middle of the room are used.
+
+</ul>
