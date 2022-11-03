@@ -71,11 +71,11 @@ Create a mask for the values of the room based on the currently set walls. This 
  
 </ul>
  
-**`Room.plot_mask()`**
+**`Room.get_mask()`**
 
  <ul>
  
-Use matplotlib.pyplot to plot an image of the current mask. In the future, this should probably just return the mask for the user to plot as they wish... But this is how it works for now.
+Returns a 2D array of the wall mask as currently calculated.
  
 </ul>
 
@@ -112,15 +112,15 @@ The `visualization` module contains a few functions for visualizing results, or 
 
 <ul>
 
-    Automatically animate the given data using `matplotlib.animation.ArtistAnimation`. The animation file can optionally be saved to a file.
+Automatically animate the given data using `matplotlib.animation.ArtistAnimation`. The animation file can optionally be saved to a file.
 
-    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+`data` is a 3D array of waveform over time, which is the output from running the simulation.
 
-    `filename` is the name and path of output file. Leave this blank to not save. Output formats are those supported by `matplotlib.animation.ArtistAnimation`, which is at least ".gif" and ".webp".
+`filename` is the name and path of output file. Leave this blank to not save. Output formats are those supported by `matplotlib.animation.ArtistAnimation`, which is at least ".gif" and ".webp".
 
-    `frame_space` is the temporal resolution of resulting animation. Make sure this isn't too small!
+`frame_space` is the temporal resolution of resulting animation. Make sure this isn't too small!
 
-    `walls` is to optionally include the walls in the animation. They won't be visible if this isn't included.
+`walls` is to optionally include the walls in the animation. They won't be visible if this isn't included.
 
 </ul>
 
@@ -128,15 +128,15 @@ The `visualization` module contains a few functions for visualizing results, or 
 
 <ul>
 
-    This function calculates the windowed RMS of the given points over time. This data is compared to the RMS value at the end of the simulation. Then the latest time index where all point RMS's are within a tolerance to the final RMS is taken as the time index where steady-state is reached.
+This function calculates the windowed RMS of the given points over time. This data is compared to the RMS value at the end of the simulation. Then the latest time index where all point RMS's are within a tolerance to the final RMS is taken as the time index where steady-state is reached.
 
-    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+`data` is a 3D array of waveform over time, which is the output from running the simulation.
 
-    `sample_points` is a list of points in the room which will be checked for RMS.
+`sample_points` is a list of points in the room which will be checked for RMS.
 
-    `rms_tolerance` is a float in [0, 1] defining the limit on the amount the RMS is allowed to change from the final value and still be considered steady-state.
+`rms_tolerance` is a float in [0, 1] defining the limit on the amount the RMS is allowed to change from the final value and still be considered steady-state.
 
-    `window_size` is a float in [0, 1] defining the percent of total points to consider in the window.
+`window_size` is a float in [0, 1] defining the percent of total points to consider in the window.
 
 </ul>
 
@@ -144,10 +144,10 @@ The `visualization` module contains a few functions for visualizing results, or 
 
 <ul>
 
-    This function calculates when the steady state begins, and returns a 2D array which is the average of the absolute value of all of the rooms points across all steady state times.
+This function calculates when the steady state begins, and returns a 2D array which is the average of the absolute value of all of the rooms points across all steady state times.
 
-    `data` is a 3D array of waveform over time, which is the output from running the simulation.
+`data` is a 3D array of waveform over time, which is the output from running the simulation.
 
-    `steady_state_kwargs` is a dict of the keyword arguments to pass to `get_steady_state_index`. If `None`, then the default parameters and a sample point at the middle of the room are used.
+`steady_state_kwargs` is a dict of the keyword arguments to pass to `get_steady_state_index`. If `None`, then the default parameters and a sample point at the middle of the room are used.
 
 </ul>
