@@ -1,3 +1,5 @@
+import numpy as np
+
 def animate(data, name, *, frame_space=10, walls=[]):
 	'''Create an animation of the data.
 	`data`: 3D array of waveform over time
