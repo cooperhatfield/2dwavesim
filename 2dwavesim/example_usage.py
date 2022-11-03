@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from room import Room, Wall, animate
+from room import Room, Wall
+vis = __import__('2dwavesim.visualization')
 
 pp = {'wavespeed': 343, 'attenuation': 0}
 ds = 1
@@ -65,9 +66,12 @@ room.run(dt, t_final)
 #plt.imshow(room.runs[0]['results'][:,:,-1])
 #plt.show()
 
-animate(room.runs[0]['results'], 'test', walls=walls_u)
+#vis.visualization.animate(room.runs[0]['results'], 'test', walls=walls_u)
 
 #plt.plot(room.runs[0]['results'][15,15,:], label='Driving Force')
 #plt.plot(room.runs[0]['results'][15,28,:], label='Force on opposite room')
 #plt.legend()
 #plt.show()
+steady_state_kwargs = {'sample_points': [(15, 28)]}
+plt.imshow(vis.visualization.get_standing_waves(room.runs[0]['results'], steady_state_kwargs=steady_state_kwargs))
+plt.show()
