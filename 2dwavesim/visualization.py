@@ -1,9 +1,9 @@
 import numpy as np
 
-def animate(data, name, *, frame_space=10, walls=[]):
+def animate(data, *, filepath='', frame_space=10, walls=[]):
 	'''Create an animation of the data.
 	`data`: 3D array of waveform over time
-	`name`: name of output file (if saving is enabled)
+	`filename`: name and path of output file. Leave blank to not save. Output formats are those supported by `matplotlib.animation.ArtistAnimation`
 	`frame_space`: temporal resolution of resulting animation. Make sure this isn't too small!
 	`walls`: optionally include the walls in the animation. They won't be visible if this isn't included.
 	'''
@@ -33,7 +33,8 @@ def animate(data, name, *, frame_space=10, walls=[]):
 
 	ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True, repeat_delay=1000)
 	plt.show()
-	#ani.save(f'D:\\Repos\\2dwavesim\\2dwavesim\\{name}.webp', writer=animation.PillowWriter(fps=24))
+	if '.' in filename: 
+		ani.save(filepath, writer=animation.PillowWriter(fps=24))
 
 def get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_size=0.1):
 	''' Estimate the earliest index the system is in steady state by calculating the difference in 
