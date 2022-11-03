@@ -45,11 +45,11 @@ def get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_siz
 	`window_size`: percent of the total data which should be included in the calculation window
 	'''
 	earliest_time_index = data.shape[-1]
-	window_length = window_size * data.shape[-1]
+	window_length = int(np.floor(window_size * data.shape[-1]))
 	for point in sample_points:
 		wave = data[point[0], point[1], :]
 		reference_rms = np.sqrt(np.mean(wave[data.shape[-1] - window_length:]))
-		for i in range(0, data.shape[-1] - 2 * window_length, -1):
+		for i in range(data.shape[-1] - 2 * window_length, 0, -1):
 			rms = np.sqrt(np.mean(wave[i:i+window_length]))
 			if rms >= rms_tolerance * reference_rms and i < earliest_time_index:
 				earliest_time_index = i
