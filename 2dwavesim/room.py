@@ -104,10 +104,11 @@ class Room:
 					}
 		self.runs.append(run_data)
 
-	def get_mask(self):
-		''' Return the a 2D numpy array of the wall mask, as currently calculated.
-		'''
-		return self.mask_points
+	def plot_mask(self):
+		'''Plot the currently set mask.'''
+		import matplotlib.pyplot as plt
+		plt.imshow(self.mask_points)
+		plt.show()
 
 class Wall:
 	def __init__(self, endpoint1, endpoint2, transmission):
