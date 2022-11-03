@@ -54,3 +54,14 @@ def get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_siz
 			if rms >= rms_tolerance * reference_rms and i < earliest_time_index:
 				earliest_time_index = i
 	return earliest_time_index
+
+def get_standing_waves(data, *, steady_state_kwargs=None):
+	''' Returns a 2D array containing values representing the standing waves in steady-state.
+	`data`: 3D array of waveform over time
+	`steady_state_kwargs`: kwargs to pass to get_steady_state. Uses default values if not
+	used.
+	'''
+	if steady_state_kwargs is None:
+		steady_state_kwargs = {'sample_points': [(data.shape[0]//2, data.shape[1]//2)]}
+	steady_state_index = get_steady_state_index(data, **steady_state_kwargs)
+	return np.mean(np.abs(data[:,:,steady_state_index:]), axis=-1)
