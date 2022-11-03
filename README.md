@@ -10,7 +10,6 @@ TODO:
 - add tests
 - add more built-in methods for visualization
 - frequency-dependant wall transmission values
-- change how `Room.plot_mask` works
 - 3D??
 
 ## Usage
