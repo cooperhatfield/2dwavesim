@@ -12,6 +12,17 @@ TODO:
 - 3D??
 
 ## Usage
+Firstly, you should be able to aquire the package though pip, by using
+`pip install 2dwavesim`
+
+Secondly, because I'm a silly goose, I named this package starting with a numerical character. This means that to import it, you'll have to do something like 
+```python
+import importlib
+tdws = importlib.import_module('2dwavesim')
+view = importlib.import_module('2dwavesim.visualization')
+```
+Oops! Anyway, onto using the code...
+
 There are two main Classes:
 
 `Room(ds, width, height,*, walls=[], physics_params={})`
