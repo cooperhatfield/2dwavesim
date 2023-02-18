@@ -33,7 +33,7 @@ def animate(data, *, filepath='', frame_space=10, walls=[]):
 
 	ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True, repeat_delay=1000)
 	plt.show()
-	if '.' in filename: 
+	if '.' in filepath: 
 		ani.save(filepath, writer=animation.PillowWriter(fps=24))
 
 def get_steady_state_index(data, *, sample_points, rms_tolerance=0.1, window_size=0.1):
